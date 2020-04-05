@@ -12,6 +12,11 @@ class SelectWidget(widgets.Select):
         js = ('custom/js/form_select.js',)
 
 
+class RecipeSelectWidget(widgets.Select):
+    class Media:
+        js = ('custom/js/form_recipe_select.js',)
+
+
 class MultiSelectWidget(widgets.SelectMultiple):
     class Media:
         js = ('custom/js/form_multiselect.js',)
@@ -226,4 +231,4 @@ class MealPlanForm(forms.ModelForm):
         model = MealPlan
         fields = ('recipe', 'meal', 'note', 'date')
 
-        widgets = {'recipe': SelectWidget, 'date': DateWidget}
+        widgets = {'recipe': RecipeSelectWidget, 'date': DateWidget}
