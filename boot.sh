@@ -1,5 +1,5 @@
 #!/bin/sh
-source venv/bin/activate
+. venv/bin/activate
 
 echo "Updating database"
 python manage.py migrate
