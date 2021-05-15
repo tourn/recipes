@@ -557,8 +557,9 @@
                 export_text() {
                     let text = ''
                     for (let c of this.display_categories) {
-                        for (let e of c.entries.filter(item => item.checked === false)) {
-                            text += `${this.export_text_prefix}${e.amount} ${e.unit.name} ${e.food.name} \n`
+                        for (let e of c.entries.filter(item => item.checked !== true)) {
+                            const amount = e.amount > 0 ? `${e.amount} ${e.unit.name} ` : ""
+                            text += `${this.export_text_prefix}${amount}${e.food.name} \n`
                         }
                     }
 
