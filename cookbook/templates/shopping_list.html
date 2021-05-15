@@ -367,11 +367,32 @@
 
             <div class="row">
                 <div class="col col-12">
-                    <b-form-textarea class="form-control" max-rows="8" v-model="export_text">
+                    <b-form-textarea class="form-control" max-rows="8" v-model="export_text" id="modal_export_text">
 
                     </b-form-textarea>
                 </div>
             </div>
+
+            <template #modal-footer>
+                <b-button
+                        variant="primary"
+                        size="sm"
+                        class="float-right"
+                        @click="copyExportToClipboard()"
+                >
+                    Copy
+                </b-button>
+                  <b-button
+                    variant="primary"
+                    size="sm"
+                    class="float-right"
+                    @click="$bvModal.hide('id_modal_export')"
+                  >
+                    Close
+                  </b-button>
+
+            </template>
+
 
 
         </b-modal>
@@ -536,8 +557,9 @@
                 export_text() {
                     let text = ''
                     for (let c of this.display_categories) {
-                        for (let e of c.entries.filter(item => item.checked === false)) {
-                            text += `${this.export_text_prefix}${e.amount} ${e.unit.name} ${e.food.name} \n`
+                        for (let e of c.entries.filter(item => item.checked !== true)) {
+                            const amount = e.amount > 0 ? `${e.amount} ${e.unit.name} ` : ""
+                            text += `${this.export_text_prefix}${amount}${e.food.name} \n`
                         }
                     }
 
@@ -931,6 +953,12 @@
                     }).catch((err) => {
                         this.makeToast(gettext('Error'), gettext('There was an error loading a resource!') + err.bodyText, 'danger')
                     })
+                },
+                copyExportToClipboard() {
+                    const el = document.getElementById("modal_export_text")
+                    el.select();
+                    el.setSelectionRange(0, 99999)
+                    document.execCommand('copy');
                 },
             },
             beforeDestroy() {
